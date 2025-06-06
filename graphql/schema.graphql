@@ -1,0 +1,81 @@
+type Equipo {
+  id: ID!
+  nombre: String!
+  ciudad: String!
+  estadio: String!
+  fundado_en: Int!
+  director: String!
+  escudo_url: String!
+  jugadores: [Jugador!]! @hasMany
+}
+
+
+type Jugador {
+  id: ID!
+  nombre: String!
+  numero: Int!
+  posicion: String!
+  edad: Int!
+  nacionalidad: String!
+  goles: Int!
+  equipo: Equipo! @belongsTo
+}
+
+
+type Query {
+  jugadores: [Jugador!]! @all
+  jugador(id: ID!): Jugador @find
+  equipos: [Equipo!]! @all
+  equipo(id: ID!): Equipo @find
+}
+
+
+type Mutation {
+  # Mutaciones Equipo​
+  crearEquipo(
+    nombre: String!
+    ciudad: String!
+    estadio: String!
+    fundado_en: Int!
+    director: String!
+    escudo_url: String!
+  ): Equipo @create(model: "App\\Models\\Equipo")
+
+  actualizarEquipo(
+    id: ID!
+    nombre: String!
+    ciudad: String!
+    estadio: String!
+    fundado_en: Int!
+    director: String!
+    escudo_url: String!
+  ): Equipo @update(model: "App\\Models\\Equipo")
+
+  eliminarEquipo(id: ID! @eq): Equipo @delete(model: "App\\Models\\Equipo")
+
+  # Mutaciones Jugador
+  crearJugador(
+    nombre: String!
+    numero: Int!
+    posicion: String!
+    edad: Int!
+    nacionalidad: String!
+    goles: Int!
+    equipo_id: ID!
+  ): Jugador @create(model: "App\\Models\\Jugador")
+
+  actualizarJugador(
+    id: ID!
+    nombre: String!
+    numero: Int!
+    posicion: String!
+    edad: Int!
+    nacionalidad: String!
+    goles: Int!
+    equipo_id: ID!
+
+  ): Jugador @update(model: "App\\Models\\Jugador")
+
+  eliminarJugador(id: ID! @eq): Jugador @delete(model: "App\\Models\\Jugador")
+}
+
